@@ -22,15 +22,10 @@ SELECT
 	utm_campaign,
 	http_referer,
 	COUNT(website_session_id) AS sessions
-FROM 
-	website sessions
-WHERE 
-	created at <2012-04-12 this Line is
-
-GROUP BY
-	1,2,3
-ORDER BY
-	sessions DESC;
+FROM website sessions
+WHERE created at <2012-04-12 this Line is
+GROUP BY 1,2,3
+ORDER BY sessions DESC;
 ```
 
 Output:
@@ -54,8 +49,7 @@ FROM website_sessions
 WHERE website_sessions.created_at < '2012-05-10'
     AND website_sessions.utm_source='gsearch'
     AND website_sessions.utm_campaign= 'nonbrand'
-GROUP BY 
-    YEARWEEK(website_sessions.created_at);
+GROUP BY YEARWEEK(website_sessions.created_at);
 ```
 
 Output:
@@ -70,7 +64,7 @@ If desktop performance is better than on mobile we may be able to bid up for des
 
 ```SQL
 SELECT 
-	website_sessions.device_type,
+    website_sessions.device_type,
     COUNT(DISTINCT website_sessions.website_session_id) as sessions,
     COUNT(DISTINCT orders.order_id) as Orders,
     COUNT(DISTINCT orders.order_id)/COUNT(DISTINCT website_sessions.website_session_id) as conversion_rate
