@@ -303,11 +303,11 @@ WHERE utm_source = 'gsearch'
 ```
 
 Output:
--------------------------------------------------
+
 |  most_recent_gsearch_nonbrand_home_pageview	|
 |-----------------------------------------------|
 |  17145					|
--------------------------------------------------
+
 So, we cgot the most recent gsearch nonbrand home pageview website session id.
 
 As a last step, we can query the above details to get the sessions that are created after the test.
@@ -323,11 +323,10 @@ WHERE created_at < '2012-11-27'
 ```
 
 Output:
--------------------------
+
 | sessions_since_test	|
 |-----------------------|
 | 22972			|
--------------------------
 ---
 
 9.	I’d love for you to quantify the impact of our billing test, as well. Please analyze the lift generated from the test (Sep 10 – Nov 10), in terms of revenue per billing page session, and then pull the number of billing page sessions for the past month to understand monthly impact.
@@ -368,11 +367,10 @@ WHERE website_pageviews.pageview_url IN ('/billing','/billing-2')
 Here we have used case statement to classify the number of awards got by the actors and we have used ROUND and AVG function to get the percentage of the films those actors acted in the films that are present in the store.
 
 Output:
----------------------------------
+
 | billing_sessions_past_month	|
 |-------------------------------|
 | 1193				|
----------------------------------
 
 1,193 billing sessions past month and the LIFT is $8.51 per billing session. So, VALUE OF BILLING TEST: $10,160 over the past month.
 
