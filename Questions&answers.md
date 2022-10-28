@@ -1,23 +1,37 @@
 # Questions & solutions
 -----------------------------------------------------------------------------------
-Consider a scenario that you have joined the organization as a business analyst and you are asked to query the databasee to get some useful insights that will help the organization grow. Some of the members will ask you some inights from their perpective, we need to query the database and provide the results to them.
+Consider a scenario that you have joined the e-commerce organization as a business analyst and you are asked to query the databasee to get some useful insights that will help the organization grow. Some of the members will ask you some inights from their perpective, we need to query the database and provide the results to them.
 
 #### Note : Please read the readme.md file to get the understanding of the data and its structure.
+
+We will be working with six related tables, which contain eCommerce data about:
+  • Website Activity
+  • Products
+  • Orders and Refunds
+We'll use MySQL to understand how customers access and interact with the site, analyze landing page performance and conversion, and explore product level sales.
+
+Paid traffic is commonly tagged with tracking (UTM) parameters, which are appended to URLs and allow us to tie website activity back to specific traffic sources and campaigns.
 -----------------------------------------------------------------------------------
 
-1. We will need a list of all staff members, including their first and last names, 
-email addresses, and the store identification number where they work.
+1. starting to generate sales. Can you help me understand where the bulk of our website sessions are coming from, through yesterday?
+I’d like to see a breakdown by UTM source , campaign and referring domain if possible. Thanks!
 
 ```SQL
-SELECT 
-	first_name, 
-        last_name, 
-	email, 
-        store_id
+SELECT
+	utm_source,
+	utm_campaign,
+	http_referer,
+	COUNT(website_session_id) AS sessions
 FROM 
-	staff;
+	website sessions
+WHERE 
+	created at <2012-04-12 this Line is
+
+GROUP BY
+	1,2,3
+ORDER BY
+	sessions DESC;
 ```
-This SQL query will return the all the staff members and their details from staff table.
 
 Output:
 
@@ -26,18 +40,23 @@ Output:
 
 -----------------------------------------------------------------------------------
 
-2.	We will need separate counts of inventory items held at each of your two stores.
+2.	Based on your conversion rate analysis, we bid down gsearch nonbrand on 2012 04 15.
+Can you pull gsearch nonbrand trended session volume, by week , to see if the bid changes have caused volume to drop at all?
 
 
 ```SQL
-SELECT 
-	store_id, 
-	COUNT(inventory_id) AS inventory_items
-FROM inventory
+use websitedb;
+SELECT
+    WEEK(website_sessions.created_at) AS year_week,
+    MIN(DATE(created_at)) AS week_start_date,
+    COUNT(DISTINCT website_sessions.website_session_id) AS sessions
+FROM website_sessions
+WHERE website_sessions.created_at < '2012-05-10'
+    AND website_sessions.utm_source='gsearch'
+    AND website_sessions.utm_campaign= 'nonbrand'
 GROUP BY 
-	store_id;
+    YEARWEEK(website_sessions.created_at);
 ```
-It displays the total count of inventory items present in each stores.
 
 Output:
 
@@ -45,19 +64,24 @@ Output:
 
 -----------------------------------------------------------------------------------
 
-3.	We will need a count of active customers for each of your stores. Separately, please.
+3.	Could you pull conversion rates from session to order , by device type ?
+If desktop performance is better than on mobile we may be able to bid up for desktop specifically to get more volume?
 
 
 ```SQL
 SELECT 
-	store_id, 
-    	COUNT(customer_id) AS active_customers
-FROM customer
-WHERE active = 1
-GROUP BY 
-	store_id;
+	website_sessions.device_type,
+    COUNT(DISTINCT website_sessions.website_session_id) as sessions,
+    COUNT(DISTINCT orders.order_id) as Orders,
+    COUNT(DISTINCT orders.order_id)/COUNT(DISTINCT website_sessions.website_session_id) as conversion_rate
+FROM website_sessions 
+	LEFT JOIN orders
+    on orders.website_session_id = website_sessions.website_session_id
+WHERE website_sessions.created_at < '2012-05-11'
+	AND utm_source = 'gsearch'
+	AND utm_campaign = 'nonbrand'
+GROUP BY 1;
 ```
-It displays the total count of active customers in each stores.
 
 Output:
 
