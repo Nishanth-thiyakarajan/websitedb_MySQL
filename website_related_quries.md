@@ -144,7 +144,12 @@ FROM website_sessions
 WHERE website_sessions.created_at < '2012-11-27'
 ORDER BY 1 DESC;
 ```
+Output:
+
+![6-1](Outputs/6-1.jpg)
+
 Next we will pull the monthly trends for Gsearch.
+
 ```SQL
 SELECT
     YEAR(website_sessions.created_at) AS yr, 
@@ -161,7 +166,6 @@ GROUP BY 1,2;
 ```
 Output:
 
-![6-1](Outputs/6-1.jpg)
 ![6-2](Outputs/6-2.jpg)
 
 -----------------------------------------------------------------------------------
@@ -199,11 +203,11 @@ FROM website_pageviews
 WHERE pageview_url = '/lander-1';
 ```
 Output:
------------------
+
 | first_test_pv	|
 |---------------|
 | 23504		|
------------------
+
 
 Next, we will take the first pageview id and create a temporary table(Please go through the README.md to know the useage of Temporary Table).
 
