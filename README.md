@@ -9,4 +9,5 @@ I am attaching the ER Diagram to view the dataase and also the connections betwe
 
 ![ER_Diagram](Outputs/ER_Diagram.jpg)
 
+
 ---
